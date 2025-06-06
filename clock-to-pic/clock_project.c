@@ -60,7 +60,7 @@ void define_hora(int formato)
     seg++;
     if (seg == 60) { seg = 0; min++; }
     if (min == 60) { min = 0; hora++; }
-    if (hora == 13) { hora = 0; }
+    if (hora == 12) { hora = 0; }
 
     int unihora = hora % 10;
     int dezhora = hora / 10;
