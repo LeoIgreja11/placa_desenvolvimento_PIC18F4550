@@ -5,12 +5,12 @@
  * Created on 30 de Maio de 2025, 21:41
  */
 
-#include "config.h"             // Inclui o arquivo de configuração dos bits de controle
-                                // Este arquivo também inclui a biblioteca xc
+#include "config.h"             // Inclui o arquivo de configuraÃ§Ã£o dos bits de controle
+                                // Este arquivo tambÃ©m inclui a biblioteca xc
 
-#define _XTAL_FREQ 20000000     // Definição da frequência do cristal oscilador (20 MHz)
+#define _XTAL_FREQ 20000000     // DefiniÃ§Ã£o da frequÃªncia do cristal oscilador (20 MHz)
 
-// Variáveis Globais
+// VariÃ¡veis Globais
 char disp[10] =
 {
     0b11111100,  // 0
@@ -25,35 +25,35 @@ char disp[10] =
     0b11110110   // 9
 };
 
-// Define o horário manualmente
+// Define o horÃ¡rio manualmente
 char hora;
 char min;
 char seg;
 
-// Protótipos das funções
+// ProtÃ³tipos das funÃ§Ãµes
 void define_hora(int formato);
 
-// Função Principal
+// FunÃ§Ã£o Principal
 void main(void)
 {
-    TRISB = 0b00000000;   // Configura todos os pinos da PORTB como saída (dados para os displays)
-    TRISD = 0b00000000;   // Configura todos os pinos da PORTD como saída (controle dos displays)
+    TRISB = 0b00000000;   // Configura todos os pinos da PORTB como saÃ­da (dados para os displays)
+    TRISD = 0b00000000;   // Configura todos os pinos da PORTD como saÃ­da (controle dos displays)
 
     LATB = 0x00;
     LATD = 0x00;
 
-    //DEFINIR HORÁRIO MANUALMENTE
+    //DEFINIR HORÃRIO MANUALMENTE
     hora = 1;
     min  = 59;
     seg  = 42;
     
     while (1)
     {
-        define_hora(12); //DEFINIR O FORMATO DO RELÓGIO MANUALMENTE
+        define_hora(12); //DEFINIR O FORMATO DO RELÃ“GIO MANUALMENTE
     }
 }
 
-// Função de controle do relógio e dos displays
+// FunÃ§Ã£o de controle do relÃ³gio e dos displays
 void define_hora(int formato)
 {
     if(formato == 12){
@@ -69,7 +69,7 @@ void define_hora(int formato)
     int uniseg  = seg  % 10;
     int dezseg  = seg  / 10;
 
-    // Proteção contra valores inválidos
+    // ProteÃ§Ã£o contra valores invÃ¡lidos
     if (unihora >= 0 && unihora < 10 &&
         dezhora >= 0 && dezhora < 10 &&
         unimin  >= 0 && unimin  < 10 &&
@@ -77,7 +77,7 @@ void define_hora(int formato)
         uniseg  >= 0 && uniseg  < 10 &&
         dezseg  >= 0 && dezseg  < 10)
     {
-        for (int i = 0; i < 167; i++)  // multiplexação
+        for (int i = 0; i < 167; i++)  // multiplexaÃ§Ã£o
         {
             LATD = 0b10000000; // Unidade de segundo
             LATB = disp[uniseg];
@@ -124,7 +124,7 @@ void define_hora(int formato)
     int uniseg  = seg  % 10;
     int dezseg  = seg  / 10;
 
-    // Proteção contra valores inválidos
+    // ProteÃ§Ã£o contra valores invÃ¡lidos
     if (unihora >= 0 && unihora < 10 &&
         dezhora >= 0 && dezhora < 10 &&
         unimin  >= 0 && unimin  < 10 &&
@@ -132,7 +132,7 @@ void define_hora(int formato)
         uniseg  >= 0 && uniseg  < 10 &&
         dezseg  >= 0 && dezseg  < 10)
     {
-        for (int i = 0; i < 167; i++)  // multiplexação
+        for (int i = 0; i < 167; i++)  // multiplexaÃ§Ã£o
         {
             LATD = 0b10000000; // Unidade de segundo
             LATB = disp[uniseg];
