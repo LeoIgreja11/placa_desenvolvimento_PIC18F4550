@@ -1,8 +1,8 @@
 /*
- * TÌtulo:   Projeto 3
+ * T√≠tulo:   Projeto 3
  * Disciplina: Sistemas Embarcados e Microcontroladores
  * 
- * IFPR - Campus ParanavaÌ
+ * IFPR - Campus Paranava√≠
  * Author: Leonardo Igreja Bezerra
  *
  * 30/11/2025 - 05/12/2025
@@ -14,59 +14,59 @@
 #include "config_pins.h"
 #include <stdio.h>
 
-// === FrequÍncia do Cristal Oscilador ===
+// === Frequ√™ncia do Cristal Oscilador ===
 #define _XTAL_FREQ 20000000
 
-// ========== ProtÛtipo de FunÁıes ==========
+// ========== Prot√≥tipo de Fun√ß√µes ==========
 void UART_Escreve_Texto(const char *text);
 void UART_Escreve(char data);
 
-// ===== FunÁ„o main =====
+// ===== Fun√ß√£o main =====
 void main(void) {
-//==================== CONFIGURA«√O DO LCD ====================
-    //ConfiguraÁıes dos pinos do LCD
+//==================== CONFIGURA√á√ÉO DO LCD ====================
+    //Configura√ß√µes dos pinos do LCD
     TRISD = 0b00000000;
     TRISE = 0b00000000;
     LATE  = 0b00000000;
 
-//==================== CONFIGURA«√O DA COMUNICA«√O UART ====================
-    //ConfiguraÁıes da Transmiss„o UART
+//==================== CONFIGURA√á√ÉO DA COMUNICA√á√ÉO UART ====================
+    //Configura√ß√µes da Transmiss√£o UART
     TRISCbits.TRISC6 = 1;
     TRISCbits.TRISC7 = 1;
     
-    SPBRG  = 15; // ((20000000)/(19200*64))-1 = 15 - ConfiguraÁ„o do baud rate
+    SPBRG  = 15; // ((20000000)/(19200*64))-1 = 15 - Configura√ß√£o do baud rate
     SPBRGH = 0;
     
-    //ConfiguraÁıes de transmiss„o serial
+    //Configura√ß√µes de transmiss√£o serial
     TXSTAbits.SYNC = 0;
     TXSTAbits.BRGH = 0;
     RCSTAbits.SPEN = 1;
     TXSTAbits.TXEN = 1;
  
-//==================== CONFIGURA«√O DA VENTOINHA ====================
-    //ConfiguraÁıes Iniciais da Ventoinha
-    TRISBbits.TRISB0 = 0; //Define como saÌda
+//==================== CONFIGURA√á√ÉO DA VENTOINHA ====================
+    //Configura√ß√µes Iniciais da Ventoinha
+    TRISBbits.TRISB0 = 0; //Define como sa√≠da
     LATBbits.LATB0   = 0; //Inicia com a ventoinha desligada
  
-//==================== CONFIGURA«√O DO PWM ====================
-    //ConfiguraÁıes do PWM
+//==================== CONFIGURA√á√ÉO DO PWM ====================
+    //Configura√ß√µes do PWM
     TRISCbits.TRISC2 = 0;
     T2CON = 0b00000111;
     PR2 = 30;//PR2 = (1/10000)/(4*(1/20000000)*16))-1 = 30,25 -> 30
-    CCPR1L  = 0b01110101; //ConfiguraÁ„o inicial desse registrador
-    CCP1CON = 0b00001100; //ConfiguraÁ„o inicial desse registrador
+    CCPR1L  = 0b01110101; //Configura√ß√£o inicial desse registrador
+    CCP1CON = 0b00001100; //Configura√ß√£o inicial desse registrador
     
-//==================== CONFIGURA«√O DO AD ====================
-    //ConfiguraÁıes do ADC (Configurar para utilizar o canal A0 e A3)
+//==================== CONFIGURA√á√ÉO DO AD ====================
+    //Configura√ß√µes do ADC (Configurar para utilizar o canal A0 e A3)
     ADCON0 = 0b00001101; //(bit 5-2) = Seleciona o canal
-    ADCON1 = 0b00001011; //(bit 3-0) = Configura a porta AN3, AN2, AN1 e AN0 como analÛgicas, e as demais digitais
+    ADCON1 = 0b00001011; //(bit 3-0) = Configura a porta AN3, AN2, AN1 e AN0 como anal√≥gicas, e as demais digitais
     ADCON2 = 0b10000111;
     
- //==================== VARI¡VEIS E INICIALIZA«√O DO LCD ====================  
+ //==================== VARI√ÅVEIS E INICIALIZA√á√ÉO DO LCD ====================  
     //Inicializa o Display LCD
     LCD_Init();
     
-    //Vari·veis
+    //Vari√°veis
     int adc;
     float tensao, temperatura;
     char buffer[16], statusVent[1], bufferPorc[4], bufferTemp[4];
@@ -75,7 +75,7 @@ void main(void) {
     
  //=========================== LOOP INFINITO ===========================     
     while(1){
-        // ==== ConfiguraÁıes do ADC para o POTENCIOMETRO ====
+        // ==== Configura√ß√µes do ADC para o POTENCIOMETRO ====
         ADCON0 = 0b00001101; //Seleciona o canal AN3
         __delay_us(10);
         
@@ -87,9 +87,9 @@ void main(void) {
 
         tensao = (float)adc*5/1023;
         porcentagem = tensao*100/5;
-        pwmSinal = ((porcentagem) / 100) * (PR2+1) * 4; //Valor a ser utilizado nas instruÁıes dos registradores
+        pwmSinal = ((porcentagem) / 100) * (PR2+1) * 4; //Valor a ser utilizado nas instru√ß√µes dos registradores
         
-        // ========== ConfiguraÁıes do ADC para o LM35 ==========
+        // ========== Configura√ß√µes do ADC para o LM35 ==========
         ADCON0 = 0b00000001; //Seleciona o canal AN0
         __delay_us(10);
         
@@ -99,9 +99,9 @@ void main(void) {
         adc = ADRESH;
         adc = (adc << 8) + ADRESL;
         
-        temperatura = (((float)adc*5/1023)/0.01) / 2; //VERIFICAR SE SER¡ APLICADO O GANHO DE -2
+        temperatura = (((float)adc*5/1023)/0.01) / 2; //VERIFICAR SE SER√Å APLICADO O GANHO DE -2
                 
-        // ==== ConfiguraÁıes do PWM para o duty cicle ajust·vel ====
+        // ==== Configura√ß√µes do PWM para o duty cicle ajust√°vel ====
         CCPR1L  = pwmSinal >> 2; //desloca 2 bits para a direita
         CCP1CONbits.DC1B1 = (pwmSinal >> 1) & 0x01; //VERIFICAR DEPOIS
         CCP1CONbits.DC1B0 = (pwmSinal)      & 0x01; //VERIFICAR DEPOIS
@@ -112,14 +112,14 @@ void main(void) {
             porcentagem = 0; // Coloca o duty cicle em 0;
             __delay_ms(10);
         }
-        //Condicional para quando a temperatura retornar a menos de 32∞C
+        //Condicional para quando a temperatura retornar a menos de 32¬∞C
         else if(temperatura < 32){
             LATBbits.LATB0 = 0; //Desliga a ventoinha
             porcentagem = tensao*100/5; // Retorna a fornecer potencia ao resistor;
             __delay_ms(10);
         }
         
-        // ============ InformaÁıes para o DISPLAY LCD ============
+        // ============ Informa√ß√µes para o DISPLAY LCD ============
         LCD_Clear();
         sprintf(buffer,"%0.1f", porcentagem); //transforma a porcentagem em string e envia para a variavel buffer
 
@@ -131,11 +131,11 @@ void main(void) {
         
         sprintf(buffer,"%0.1f", temperatura); //transforma a porcentagem em string e envia para a variavel buffer
 
-        // Temperat.=XY.Z∞C
+        // Temperat.=XY.Z¬∞C
         LCD_SetCursor(2,1);
         LCD_String("Temperat.="); //"Temperat.= "
         LCD_String(buffer); //"XY.Z"
-        LCD_Char(0b11011111); //"∞"
+        LCD_Char(0b11011111); //"¬∞"
         LCD_String("C"); //"C"
         
         UART_Escreve_Texto("Duty cicle: ");
@@ -144,8 +144,8 @@ void main(void) {
         UART_Escreve_Texto("% | Temperatura: ");
         sprintf(bufferTemp,"%.1f", temperatura);
         UART_Escreve_Texto(bufferTemp);
-        UART_Escreve(248); //colocar o sÌmbolo ∞
-        UART_Escreve_Texto("C | Ventoinha: ");
+        //UART_Escreve(248); //colocar o s√≠mbolo ¬∞
+        UART_Escreve_Texto("¬∞C | Ventoinha: ");
         if(LATBbits.LATB0) UART_Escreve_Texto("1");
         else               UART_Escreve_Texto("0");
         UART_Escreve_Texto("\r\n");
@@ -165,3 +165,4 @@ void UART_Escreve(char data){
     while(!TXSTAbits.TRMT);
     TXREG = data;
 }
+
